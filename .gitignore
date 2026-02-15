@@ -1,39 +1,24 @@
-# Node.js dependencies
-node_modules/
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+node_modules
+dist
+dist-ssr
+*.local
 
-# System files
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
-
-# VS Code settings
-.vscode/
-
-# Build and distribution files
-build/
-dist/
-
-# Logs
-logs/
-*.log
-yarn.lock
-package-lock.json
-
-# Misc
-*.swp
-
-# Vercel build folder
-.vercel/
-
-# Unwanted project folder
-roicalculator/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
