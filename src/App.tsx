@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Header } from './components/Header';
 import { ModelSelector } from './components/ModelSelector';
 import { ScenarioControls } from './components/ScenarioControls';
@@ -21,6 +21,20 @@ function App() {
   });
 
   const [overlayTriggered, setOverlayTriggered] = useState(false);
+  const tapCount = useRef(0);
+  const tapTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const handleFooterTap = useCallback(() => {
+    if (theme === 'magos') return;
+    tapCount.current += 1;
+    clearTimeout(tapTimer.current);
+    if (tapCount.current >= 7) {
+      tapCount.current = 0;
+      konami.activate();
+    } else {
+      tapTimer.current = setTimeout(() => { tapCount.current = 0; }, 2000);
+    }
+  }, [theme, konami]);
 
   if (konami.activated && theme !== 'magos' && !overlayTriggered) {
     setShowOverlay(true);
@@ -103,7 +117,7 @@ function App() {
           }`}>
             {theme === 'magos'
               ? '⚙ From the forges of Mars · The Machine Spirit endures · v2.0 ⚙'
-              : 'ROI Calculator v2.0 · All projections are estimates'
+              : <><span>ROI Calculator </span><span onClick={handleFooterTap} className="cursor-default select-none">v2.0</span><span> · All projections are estimates</span></>
             }
           </footer>
         </div>

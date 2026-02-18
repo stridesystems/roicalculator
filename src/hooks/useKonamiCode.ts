@@ -6,7 +6,7 @@ const KONAMI_CODE = [
   'b', 'a',
 ];
 
-export function useKonamiCode(): { activated: boolean; reset: () => void } {
+export function useKonamiCode(): { activated: boolean; activate: () => void; reset: () => void } {
   const [index, setIndex] = useState(0);
   const [activated, setActivated] = useState(() => {
     try { return localStorage.getItem('magos-activated') === 'true'; }
@@ -33,11 +33,17 @@ export function useKonamiCode(): { activated: boolean; reset: () => void } {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [index, activated]);
 
+  const activate = useCallback(() => {
+    setActivated(true);
+    setIndex(0);
+    try { localStorage.setItem('magos-activated', 'true'); } catch {}
+  }, []);
+
   const reset = useCallback(() => {
     setActivated(false);
     setIndex(0);
     try { localStorage.removeItem('magos-activated'); } catch {}
   }, []);
 
-  return { activated, reset };
+  return { activated, activate, reset };
 }
